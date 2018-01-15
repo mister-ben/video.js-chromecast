@@ -186,6 +186,16 @@ var ChromeCastButton = (function (_Button) {
                     mediaInfo.metadata[key] = value;
                 }
             }
+            if (this.player().mediainfo) {
+                if (this.player().mediainfo.name) {
+                    mediaInfo.metadata.title = this.player().mediainfo.name;
+                }
+                if (this.player().mediainfo.description && this.player().mediainfo.description !== '' && this.player().mediainfo.description !== mediaInfo.metadata.title) {
+                    mediaInfo.metadata.subtitle = this.player().mediainfo.description;
+                } else if (this.player().mediainfo.long_description && this.player().mediainfo.long_description !== '' && this.player().mediainfo.long_description !== mediaInfo.metadata.title) {
+                    mediaInfo.metadata.subtitle = this.player().mediainfo.description;
+                }
+            }
             //Add poster image on player
             var poster = this.player().poster();
             if (poster) {
@@ -940,10 +950,6 @@ Chromecast.prototype.options_ = {};
 
 // register the plugin
 _videoJs2['default'].options.children.push('chromecast');
-
-_videoJs2['default'].addLanguage('en', {
-    'CASTING TO': 'WIEDERGABE AUF'
-});
 
 _videoJs2['default'].addLanguage('de', {
     'CASTING TO': 'WIEDERGABE AUF'
